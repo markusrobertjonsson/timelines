@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dataset details
+{% endblock %} 
+
+{% block content %}
+
+<h2>Dataset added {{ dataset.date }}</h2>
+{% for key in ['label', 'description', 'time_values', 'data_values'] %}
+    {{ form[key].label }}<br />
+<div style="border:1px solid black;">{{ dataset[key] }}</div>
+{% endfor %}
+
+{% endblock %}

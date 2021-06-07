@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add dataset
+{% endblock %} 
+
+{% block content %}
+
+<h2>Add a new dataset</h2>
+<form method="POST" action="{{ url_for('views.add') }}">
+  {{ form.csrf_token }}
+  <div>
+    <p>{{ form.label.label }} <br /> {{ form.label }}</p>
+    <p>{{ form.description.label }} <br /> {{ form.description }}</p>
+    <p>{{ form.time_values.label }} <br /> {{ form.time_values }}</p>
+    <p>{{ form.data_values.label }} <br /> {{ form.data_values }}</p>
+  </div>
+  <textarea name="timedata" id="timedata" class="form-control"></textarea><br />
+
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add</button>
+  </div>
+</form>
+
+{% endblock %}
