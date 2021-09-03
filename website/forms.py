@@ -1,19 +1,32 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, TextAreaField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 from .models import LABEL_MAXLENGTH, DESCRIPTION_MAXLENGTH, DATA_MAXLENGTH
 
 
 class AddDataSetForm(FlaskForm):
-    label = StringField("Label",
+    label = StringField("Label (displayed in list of datasets):", default="",
                         validators=[DataRequired(), Length(min=3, max=LABEL_MAXLENGTH)])
-    description = TextAreaField("Description",
+    description = TextAreaField("Description:",
                                 validators=[Length(max=DESCRIPTION_MAXLENGTH)])
-    time_values = TextAreaField("Time values",
+    time_values = TextAreaField("Time values:",
                                 validators=[DataRequired(), Length(max=DATA_MAXLENGTH)])
-    data_values = TextAreaField("Data values",
+    data_values = TextAreaField("Data values:",
                                 validators=[DataRequired(), Length(max=DATA_MAXLENGTH)])
+    data_unit = SelectField("Unit for data values",
+        choices=[("kg", 'kg'), ("tonnes", "tonnes"),
+                 ("m", 'm'),
+                 ("m2", 'm2'),
+                 ("m3", 'm3'), ("km3", "km3"),
+                 ("number of", "number of"),
+                 ("percentage", "percentage"), ("ppm", "ppm"), ("ppb", "ppb"),
+                 ("degrees Celsius", "degrees Celsius"),
+                 ("USD", "USD"),
+                 ("Joule", "Joule"), ("Exajoule", "Exajoule")],
+        validators=[DataRequired()])
+    legend = StringField("String for legend in graph:",
+                         validators=[DataRequired(), Length(min=3, max=LABEL_MAXLENGTH)])
 
 
 class RegistrationForm(FlaskForm):

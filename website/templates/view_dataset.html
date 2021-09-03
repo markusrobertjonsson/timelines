@@ -7,9 +7,15 @@ Dataset details
 {% block content %}
 
 <h2>Dataset added {{ dataset.date }}</h2>
-{% for key in ['label', 'description', 'time_values', 'data_values'] %}
+{% for key in ['label', 'description', 'time_values', 'data_values', 'legend', 'data_unit'] %}
     {{ form[key].label }}<br />
-<div style="border:1px solid black;">{{ dataset[key] }}</div>
+    <div style="border:1px solid black;">{{ dataset[key] }}</div>
+    <p></p>
 {% endfor %}
+
+<div align="center">
+    <a href="{{ url_for('views.home') }}" class="btn btn-primary" role="button" aria-pressed="true">Back</a>
+</div>
+
 
 {% endblock %}

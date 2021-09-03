@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}
+Update dataset
+{% endblock %} 
+
+{% block content %}
+
+  <div class="content-section">
+      <form method="POST" action="{{ url_for('views.update_dataset', id=dataset.id) }}">
+          {{ form.hidden_tag() }}  <!-- form.csrf_token -->
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Update dataset</legend>
+
+              <!-- <div class="form-group">
+                  {{ form.data_unit.label(class="form-control-label") }} 
+                  {% if form.data_unit.errors %}
+                      {{ form.data_unit.label(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for error in form.data_unit.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.data_unit(class="form-control form-control-lg") }}
+                  {% endif %}
+              </div> -->
+                
+              <!-- {% for error in form.label.errors %}
+                  <span style="color:red;"><br />[{{ error }}]</span>
+              {% endfor %} -->
+              
+              {% for key in ['label', 'description', 'time_values', 'data_values', 'legend', 'data_unit'] %}
+                  <div class="form-group">
+                      {{ form[key].label(class="form-control-label") }}
+                      {% if form[key].errors %}
+                          {{ form[key](class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form[key].errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                      {% else %}
+                          {{ form[key](class="form-control form-control-lg") }}
+                      {% endif %}
+                      <!-- {% for error in form[key].errors %}
+                          <span style="color:red;">[{{ error }}]</span>
+                      {% endfor %} -->
+                  </div>
+                {% endfor %}
+            </div>
+
+            <div align="center">
+                <a href="{{ url_for('views.home') }}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
+                <!-- <button class="btn btn-secondary">Cancel</button> -->
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </fieldset>
+    </form>
+  </div>
+
+{% endblock %}

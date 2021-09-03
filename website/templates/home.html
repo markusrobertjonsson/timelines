@@ -4,49 +4,109 @@
 
 <h1 align="center">Datasets</h1>
 
-<!--
-<p></p>
-<form action="/action_page.php">  
-  <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-  <label for="vehicle1"> I have a bike</label><br>
-  <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-  <label for="vehicle1"> I have a car</label><br>
-</form>
--->
-
 <hr />
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-sm">
+    <div class="col-md">
 
-      <ul class="list-group list-group-flush overflow-auto" id="datasets">
+      <h2>Pre-defined datasets
+        {% if user.email == "markusrobertjonsson@gmail.com" %}  <!-- XXX Change to admin -->
+          <a href="{{ url_for('views.update_predef') }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Update</a>
+        {% endif %}
+      </h2>
 
-        {% for dataset in user.datasets %}
-        <li class="list-group-item">
+        <!-- <div class="hummingbird-treeview-converter" data-height="200px" data-scroll="true" data-id="_movies">
+          <li id="item_1" data-id="Studio_1">Warner Bros.</li>
+          <li id="item_2" data-id="Movie_1">-Goodfellas</li>
+          <li id="item_3" data-id="Actor_1">--Robert De Niro</li>
+          <li id="item_4" data-id="Actor_2">--Joe Pesci</li>
+          <li id="item_5" data-id="Movie_2">-The Shawshank Redemption</li>
+          <li id="item_6" data-id="Actor_3">--Tim Robbins</li>
+          <li id="item_7" data-id="Actor_4">--Morgan Freeman</li>
+          <li id="item_8" data-id="Studio_2">Paramount</li>
+          <li id="item_9" data-id="Movie_3" data-str='data-toggle="tooltip" data-placement="auto" title="1987"' >-The Untouchables</li>
+          <li id="item_10" data-id="Actor_1">--Robert De Niro</li>
+          <li id="item_11" data-id="Actor_5">--Kevin Costner</li>
+          <li id="item_12" data-id="Movie_4">-Forrest Gump</li>
+          <li id="item_13" data-id="Actor_6">--Tom Hanks</li>
+          <li id="item_14" data-id="Actor_7">--Robin Wright</li>
+        </div> -->
 
-          <input type="checkbox" id="{{dataset.id}}" name="{{dataset.id}}" value="{{dataset.id}}">
-          <label for="{{dataset.id}}"> {{ dataset.label }} </label>
+        <div id="treeview_container" class="hummingbird-treeview" style="height: 300px; overflow-y: scroll; border:1px solid black;">
+          <ul id="treeview" class="hummingbird-base">
+            <li data-id="0">
+              <i class="fa fa-plus"></i>
+              <label>
+                The Great Acceleration Data (October 2014)
+                <!-- <input id="xnode-0" data-id="custom-0" type="checkbox" /> The Great Acceleration Data (October 2014) -->
+              </label>
+              <ul>
+                {% set cnt = [1] %}  <!-- [1] instead of 1: workaround for Jinja2 scope -->
+                {% for g in ["Population", "Real GDP", "FDI", "Urban population", "Fertilizer consumption",
+                             "Large dams", "Water use", "Paper production", "Transportation", "Telecommunications"] %}
+                  <li data-id="1">
+                    <i class="fa fa-plus"></i>
+                    <label>
+                      <input id="xnode-0-1" data-id="custom-0-1" type="checkbox" /> {{g}}
+                    </label>
+                    <ul>
+                      
+                      {% for gg in ["OECD", "BRICS", "Rest", "World"] %}
+                        <li>
+                          <label>
+                            <input class="hummingbird-end-node" id={{'predef' ~ cnt[0]|string}} type="checkbox" /> {{gg}}
+                          </label>
+                        </li>
+                        {% if cnt.append(cnt.pop() + 1) %}{% endif %}  <!-- Instead of cnt=cnt+1: workaround for Jinja2 scope -->
+                      {% endfor %}
 
-          <!-- {{ dataset.data }} (Added {{ dataset.date }}) 
-          <button type="button" class="close" onClick="deleteNote({{ dataset.id }})">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          -->
-          <div class="float-right">
-            <!-- (Added {{ dataset.date }}) -->
-            <a href="{{ url_for('views.view_dataset', id=dataset.id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Details</a>
-            <a href="/delete/{{dataset.id}}">&times;</a>
-          </div>
-        </li>
-        {% endfor %}
-      </ul>
-      <a href="{{ url_for('views.add') }}" class="btn btn-primary btn-lg btn-block active" role="button" aria-pressed="true">Add dataset</a>
+                    </ul>
+                  </li>
+                {% endfor %}
 
+                <li data-id="1">
+                  <label>
+                    <input class="hummingbird-end-node" id={{'predef' ~ cnt[0]|string}} type="checkbox" /> Primary energy use
+                  </label>
+                </li>                
+
+              </ul>
+            </li>
+          </ul>
+        </div>
+    
+
+      <h2><br>My datasets</h2>
+      <div style="border:1px solid black;">
+        <ul class="my_datasets_list list-group list-group-flush overflow-auto" id="datasets">
+
+          {% for dataset in user.datasets %}
+          <li class="list-group-item">
+
+            <input type="checkbox" id="{{dataset.id}}" name="{{dataset.id}}" value="{{dataset.id}}" class="my_datasets_checkbox">
+            <label for="{{dataset.id}}"> {{ dataset.label }} </label>
+
+            <!-- {{ dataset.data }} (Added {{ dataset.date }}) 
+            <button type="button" class="close" onClick="deleteNote({{ dataset.id }})">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            -->
+            <div class="float-right">
+              <!-- (Added {{ dataset.date }}) -->
+              <a href="{{ url_for('views.view_dataset', id=dataset.id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Details</a>
+              <a href="{{ url_for('views.update_dataset', id=dataset.id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Update</a>
+              <a href="/delete/{{dataset.id}}">&times;</a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        <a href="{{ url_for('views.add') }}" class="btn btn-primary btn-lg btn-block active" role="button" aria-pressed="true">Add dataset</a>
+      </div>
     </div>
-    <div class="col-sm">
-      <h2>Plot</h2>
-    </div>
+
+    <div class="col-md" id="chartdiv" style="height:600px"></div>
+
   </div>
 </div>
 
