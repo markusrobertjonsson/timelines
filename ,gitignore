@@ -1,6 +1,8 @@
 *.py[cod]
 __pycache__/*
 
+venv/*
+
 tests/__pycache__/*
 
 tests/exported_files/*.csv
