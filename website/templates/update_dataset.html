@@ -30,18 +30,19 @@ Update dataset
                   <span style="color:red;"><br />[{{ error }}]</span>
               {% endfor %} -->
               
-              {% for key in ['label', 'description', 'time_values', 'data_values', 'legend', 'data_unit'] %}
+              {% for key in ['label', 'description', 'time_values', 'data_values', 'data_is_qualitative',
+                             'legend', 'data_unit'] %}
                   <div class="form-group">
                       {{ form[key].label(class="form-control-label") }}
                       {% if form[key].errors %}
-                          {{ form[key](class="form-control form-control-lg is-invalid") }}
+                          {{ form[key](class="form-control form-control-sm is-invalid") }}
                           <div class="invalid-feedback">
                               {% for error in form[key].errors %}
                                   <span>{{ error }}</span>
                               {% endfor %}
                           </div>
                       {% else %}
-                          {{ form[key](class="form-control form-control-lg") }}
+                          {{ form[key](class="form-control form-control-sm") }}
                       {% endif %}
                       <!-- {% for error in form[key].errors %}
                           <span style="color:red;">[{{ error }}]</span>
@@ -53,7 +54,7 @@ Update dataset
             <div align="center">
                 <a href="{{ url_for('views.home') }}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
                 <!-- <button class="btn btn-secondary">Cancel</button> -->
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </fieldset>
     </form>

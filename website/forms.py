@@ -14,8 +14,10 @@ class AddDataSetForm(FlaskForm):
                                 validators=[DataRequired(), Length(max=DATA_MAXLENGTH)])
     data_values = TextAreaField("Data values:",
                                 validators=[DataRequired(), Length(max=DATA_MAXLENGTH)])
-    data_unit = SelectField("Unit for data values",
-        choices=[("kg", 'kg'), ("tonnes", "tonnes"),
+    data_is_qualitative = BooleanField("Data is qualitative:", default=False)
+    data_unit = SelectField("Unit for data values:",
+        choices=[("None", "None"),
+                 ("kg", 'kg'), ("tonnes", "tonnes"),
                  ("m", 'm'),
                  ("m2", 'm2'),
                  ("m3", 'm3'), ("km3", "km3"),
@@ -28,14 +30,15 @@ class AddDataSetForm(FlaskForm):
     legend = StringField("String for legend in graph:",
                          validators=[DataRequired(), Length(min=3, max=LABEL_MAXLENGTH)])
 
-
-class RegistrationForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm password', 
-                                     validators=[DataRequired(),
-                                                 EqualTo('password', message='Passwords must match.')])
-    submit = SubmitField('Sign up')
+# XXX Use this (in auth.py and sign-up.html)
+# class RegistrationForm(FlaskForm):
+#     email = StringField('Email', validators=[DataRequired(), Email()])
+#     name = StringField('Email', validators=[DataRequired()])
+#     password = PasswordField('Password', validators=[DataRequired()])
+#     confirm_password = PasswordField('Confirm password', 
+#                                      validators=[DataRequired(),
+#                                                  EqualTo('password', message='Passwords must match.')])
+#     submit = SubmitField('Sign up')
 
 
 class LoginForm(FlaskForm):

@@ -14,6 +14,7 @@ class DataSet(db.Model):
     description = db.Column(db.String(DESCRIPTION_MAXLENGTH))
     time_values = db.Column(db.String(DATA_MAXLENGTH))
     data_values = db.Column(db.String(DATA_MAXLENGTH))
+    data_is_qualitative = db.Column(db.Boolean, unique=False, default=False)
     data_scale = db.Column(db.Integer, nullable=True)  # Power of ten
     data_unit = db.Column(db.String(UNIT_MAXLENGTH))
     legend = db.Column(db.String(LABEL_MAXLENGTH))
@@ -25,5 +26,5 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
-    first_name = db.Column(db.String(150))
+    name = db.Column(db.String(150))
     datasets = db.relationship('DataSet')

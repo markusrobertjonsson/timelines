@@ -13,7 +13,7 @@ population = {
                         0.242035681, 0.262129531, 0.280730814, 0.30501159, 0.328512028, 0.363160071, 0.400950541, 0.443211893, \
                         0.493641011, 0.523597104, 0.580957783, 0.624764479, 0.692910076, 0.791579859, 0.894056318, 0.986839266, \
                         1.069778752, 1.158133124, 1.238451397",
-        "legend": "OECD"},
+        "legend": "Population, OECD"},
 
     # BRICS
     "brics": {
@@ -22,7 +22,7 @@ population = {
                         0.644549898, 0.669961309, 0.712635311, 0.724891895, 0.678253013, 0.693471209, 0.739113785, 0.781107832, \
                         0.807750309, 0.860840041, 0.92620024, 1.024824069, 1.089332181, 1.307534892, 1.621995531, 1.968205397, \
                         2.344709098, 2.68236749, 2.962509945",
-        "legend": "BRICS"},
+        "legend": "Population, BRICS"},
 
     # Rest
     "rest": {
@@ -32,7 +32,7 @@ population = {
                         0.287503235584727, 0.309089717435048, 0.333118985056065, 0.363151020551872, 0.398921693510794, \
                         0.435300770552593, 0.481781495447407, 0.533991082535681, 0.591804169421351, 0.665805868851286, \
                         0.747091395625, 0.92422230625, 1.1696914545, 1.482514137, 1.875876711, 2.274724728, 2.707531604",
-        "legend": "Rest"},
+        "legend": "Population, Rest"},
 
     # World
     "world": {
@@ -64,7 +64,7 @@ population = {
 5.290364561
 6.115225342
 6.908492946""",
-        "legend": "World"}
+        "legend": "Population, World"}
 }
 
 ### Real GDP ###
@@ -598,7 +598,7 @@ real_gdp = {
 37.3283880292528
 36.0456883217308
 37.0091927860795""",
-        "legend": "OECD"},
+        "legend": "Real GDP, OECD"},
 
     # BRICS
     "brics": {
@@ -864,7 +864,7 @@ real_gdp = {
 7.04191453600228
 7.28916158088139
 7.90212230812616""",
-        "legend": "BRICS"},
+        "legend": "Real GDP, BRICS"},
 
     # Rest
     "rest": {
@@ -1130,7 +1130,7 @@ real_gdp = {
 4.98993613374182
 5.0078491912444
 5.24045259240833""",
-        "legend": "Rest"},
+        "legend": "Real GDP, Rest"},
 
     # World
     "world": {
@@ -1396,7 +1396,7 @@ real_gdp = {
 49.3602386989969
 48.3426990938566
 50.151767686614""",
-        "legend": "World"}
+        "legend": "Real GDP, World"}
 }
 
 
@@ -1535,7 +1535,7 @@ fdi = {
 1.06068142812325
 0.638421917264814
 0.664319366798046""",
-        "legend": "OECD"},
+        "legend": "FDI, OECD"},
 
     # BRICS
     "brics": {
@@ -1603,7 +1603,7 @@ fdi = {
 0.348428529258828
 0.254466284486181
 0.30830587302296""",
-        "legend": "BRICS"},
+        "legend": "FDI, BRICS"},
 
     # Rest
     "rest": {
@@ -1671,7 +1671,7 @@ fdi = {
 0.381595726625032
 0.30493546950201
 0.33637604422537""",
-        "legend": "Rest"},
+        "legend": "FDI, Rest"},
 
     # World
     "world": {
@@ -1739,7 +1739,7 @@ fdi = {
 1.79070568400711
 1.197823671253
 1.30900128404638""",
-        "legend": "World"}
+        "legend": "FDI, World"}
 }
 
 
@@ -1806,7 +1806,7 @@ urban_population = {
 0.769799079
 0.863460317
 0.953244103""",
-        "legend": "OECD"},
+        "legend": "Urban population, OECD"},
 
     # BRICS
     "brics": {
@@ -1838,7 +1838,7 @@ urban_population = {
 0.793891875774751
 1.04099399037313
 1.30292239511699""",
-        "legend": "BRICS"},
+        "legend": "Urban population, BRICS"},
 
     # Rest
     "rest": {
@@ -1870,7 +1870,7 @@ urban_population = {
 0.721868452
 0.959933752
 1.253079537""",
-        "legend": "Rest"},
+        "legend": "Urban population, Rest"},
 
     # World
     "world": {
@@ -1902,7 +1902,7 @@ urban_population = {
 2.28555940677475
 2.86438805937313
 3.50924603511699""",
-        "legend": "World"}
+        "legend": "Urban population, World"}
 }
 
 ### Urban population ###
@@ -2136,7 +2136,7 @@ fertilizer_consumption = {
 39.3322
 43.8133
 47.0688""",
-        "legend": "OECD"},
+        "legend": "Fertilizer consumption, OECD"},
 
     # BRICS
     "brics": {
@@ -2252,7 +2252,7 @@ fertilizer_consumption = {
 85.9957
 87.8113
 91.3685""",
-        "legend": "BRICS"},
+        "legend": "Fertilizer consumption, BRICS"},
 
     # Rest
     "rest": {
@@ -2368,7 +2368,7 @@ fertilizer_consumption = {
 29.2453
 30.8786
 33.0283""",
-        "legend": "Rest"},
+        "legend": "Fertilizer consumption, Rest"},
 
     # World
     "world": {
@@ -2484,7 +2484,7 @@ fertilizer_consumption = {
 154.5732
 162.5032
 171.4656""",
-        "legend": "World"}
+        "legend": "Fertilizer consumption, World"}
 }
 
 ### Large dams ###
@@ -3018,7 +3018,7 @@ large_dams = {
 18.285
 18.285
 18.287""",
-        "legend": "OECD"},
+        "legend": "Large dams, OECD"},
 
     # BRICS
     "brics": {
@@ -3284,7 +3284,7 @@ large_dams = {
 10.301
 10.302
 10.302""",
-        "legend": "BRICS"},
+        "legend": "Large dams, BRICS"},
 
     # Rest
     "rest": {
@@ -3550,7 +3550,7 @@ large_dams = {
 3.046
 3.046
 3.046""",
-        "legend": "Rest"},
+        "legend": "Large dams, Rest"},
 
     # World
     "world": {
@@ -3816,7 +3816,7 @@ large_dams = {
 31.632
 31.633
 31.635""",
-        "legend": "World"}
+        "legend": "Large dams, World"}
 }
 
 ### Global water use ###
@@ -4048,7 +4048,7 @@ water_use = {
 0.933118180750157
 0.902341417809723
 0.89229058708483""",
-        "legend": "OECD"},
+        "legend": "Water use, OECD"},
 
     # BRICS
     "brics": {
@@ -4163,7 +4163,7 @@ water_use = {
 1.71098718751623
 1.84621431132161
 1.69172920004557""",
-        "legend": "BRICS"},
+        "legend": "Water use, BRICS"},
 
     # Rest
     "rest": {
@@ -4278,7 +4278,7 @@ water_use = {
 1.30422089659593
 1.32439125579778
 1.28786639735129""",
-        "legend": "Rest"},
+        "legend": "Water use, Rest"},
 
     # World
     "world": {
@@ -4393,7 +4393,7 @@ water_use = {
 3.94832626486231
 4.07294698492912
 3.87188618448169""",
-        "legend": "World"}
+        "legend": "Water use, World"}
 }
 
 
@@ -4506,7 +4506,7 @@ paper_production = {
 249.768156
 223.689731
 238.640528""",
-        "legend": "OECD"},
+        "legend": "Paper production, OECD"},
 
     # BRICS
     "brics": {
@@ -4561,7 +4561,7 @@ paper_production = {
 111.206178
 116.95152
 127.221244""",
-        "legend": "BRICS"},
+        "legend": "Paper production, BRICS"},
 
     # Rest
     "rest": {
@@ -4616,7 +4616,7 @@ paper_production = {
 30.513244
 31.907115
 32.910508""",
-        "legend": "Rest"},
+        "legend": "Paper production, Rest"},
 
     # World
     "world": {
@@ -4671,7 +4671,7 @@ paper_production = {
 391.487578
 372.548366
 398.77228""",
-        "legend": "World"}
+        "legend": "Paper production, World"}
 }
 
 
@@ -4778,7 +4778,7 @@ transportation = {
 715.303112
 726.529734
 721.758835""",
-        "legend": "OECD"},
+        "legend": "Transportation, OECD"},
 
     # BRICS
     "brics": {
@@ -4830,7 +4830,7 @@ transportation = {
 242.278435
 355.523672
 380.354696""",
-        "legend": "BRICS"},
+        "legend": "Transportation, BRICS"},
 
     # Rest
     "rest": {
@@ -4882,7 +4882,7 @@ transportation = {
 218.74244807
 185.413100435
 179.241665""",
-        "legend": "Rest"},
+        "legend": "Transportation, Rest"},
 
     # World
     "world": {
@@ -4934,7 +4934,7 @@ transportation = {
 1176.32399507
 1267.466506435
 1281.355196""",
-        "legend": "World"}
+        "legend": "Transportation, World"}
 }
 
 
@@ -5069,7 +5069,7 @@ telecommunications = {
 1.738386113
 1.790045853
 1.810679846""",
-        "legend": "OECD"},
+        "legend": "Telecommunications, OECD"},
 
     # BRICS
     "brics": {
@@ -5135,7 +5135,7 @@ telecommunications = {
 1.86962896
 2.178246317
 2.536385482""",
-        "legend": "BRICS"},
+        "legend": "Telecommunications, BRICS"},
 
     # Rest
     "rest": {
@@ -5201,7 +5201,7 @@ telecommunications = {
 1.63108705
 1.881989548
 2.139984983""",
-        "legend": "Rest"},
+        "legend": "Telecommunications, Rest"},
 
     # World
     "world": {
@@ -5267,7 +5267,7 @@ telecommunications = {
 5.239102123
 5.850281718
 6.487050311""",
-        "legend": "World"}
+        "legend": "Telecommunications, World"}
 }
 
 

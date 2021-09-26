@@ -7,7 +7,7 @@ from .models import DataSet
 from .forms import AddDataSetForm
 from . import db
 from .predefined_data import add_predefined
-from .util import to_csv
+from .util import to_csv, to_bool
 
 views = Blueprint('views', __name__)
 
@@ -58,6 +58,7 @@ def _get_for_plot(ids):
     # ids is a list of integers (for user's data (id)) and strings (predefined data (id_predef))
     xydata = []  # List of dicts
     legends = []  # List of strings
+    data_is_qualitative = []
     ind = 0
     for id in ids:
         if str.isdigit(id):
@@ -67,7 +68,12 @@ def _get_for_plot(ids):
         for time, value in zip(dataset.time_values.split(','), dataset.data_values.split(',')):
             x = time.strip()
             y = value.strip()
-            if len(y) > 0:
+
+            if dataset.data_is_qualitative:
+                xydata.append({"time" + str(ind): x,
+                               "value" + str(ind): "0",
+                               "text" + str(ind): y})
+            elif len(y) > 0:
                 xydata.append({"time" + str(ind): x,
                                "value" + str(ind): y})
             else:  # amCharts interprets empty string as zero - for "no value" we need to omit the key "value"
@@ -79,7 +85,9 @@ def _get_for_plot(ids):
         else:
             legend = legend + " (" + dataset.data_unit + ")"
         legends.append(legend)
-    return jsonify(xydata=xydata, legends=legends)  # Cannot return the list, must return a json
+        data_is_qualitative.append(dataset.data_is_qualitative)
+
+    return jsonify(xydata=xydata, legends=legends, data_is_qualitative=data_is_qualitative)  # Cannot return the list, must return a json
 
 
 @views.route('/details/<int:id>')
@@ -96,11 +104,12 @@ def update_dataset(id):
 
     dataset_to_update = DataSet.query.get_or_404(id)
     form = AddDataSetForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit():  # Update the dataset
         dataset_to_update.label = request.form.get('label')
         dataset_to_update.description = request.form.get('description')
         dataset_to_update.time_values = to_csv(request.form.get('time_values'))
-        dataset_to_update.data_values = to_csv(request.form.get('data_values'))
+        dataset_to_update.data_values = to_csv(request.form.get('data_values'))        
+        dataset_to_update.data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))
         dataset_to_update.legend = request.form.get('legend')
         dataset_to_update.data_unit = request.form.get('data_unit')
         try:
@@ -110,13 +119,14 @@ def update_dataset(id):
             db.session.rollback()
             flash(f'There was an error updating the dataset: {e}', category='error')
         return render_template("home.html", user=current_user)
-    else:
+    else:  # Render update_dataset
         # for key in ['label', 'description', 'time_values', 'data_values', 'data_unit', 'legend']:
         #     form[key].data = dataset_to_update[key]
         form.label.data = dataset_to_update.label
         form.description.data = dataset_to_update.description
         form.time_values.data = dataset_to_update.time_values
         form.data_values.data = dataset_to_update.data_values
+        form.data_is_qualitative.data = dataset_to_update.data_is_qualitative
         form.data_unit.data = dataset_to_update.data_unit
         form.legend.data = dataset_to_update.legend
         return render_template("update_dataset.html", user=current_user, dataset=dataset_to_update, form=form)
@@ -147,12 +157,14 @@ def add():
         description = request.form.get('description')
         time_values = to_csv(request.form.get('time_values'))
         data_values = to_csv(request.form.get('data_values'))
+        data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))  # request.form.get('data_is_qualitative') is None if checkbox unchecked, and 'y' if checked. Weird.
         legend = request.form.get('legend')
         data_unit = request.form.get('data_unit')
         new_dataset = DataSet(label=label,
                               description=description,
                               time_values=time_values,
                               data_values=data_values,
+                              data_is_qualitative=data_is_qualitative,
                               legend=legend,
                               data_unit=data_unit,
                               user_id=current_user.id)

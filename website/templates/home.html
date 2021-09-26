@@ -2,13 +2,13 @@
 {% block title %}Human Timelines{% endblock %}
 {% block content %}
 
-<h1 align="center">Datasets</h1>
+<h1 align="center">Timelines</h1>
 
 <hr />
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md">
+    <div class="resizable_e">
 
       <h2>Pre-defined datasets
         {% if user.email == "markusrobertjonsson@gmail.com" %}  <!-- XXX Change to admin -->
@@ -38,7 +38,7 @@
             <li data-id="0">
               <i class="fa fa-plus"></i>
               <label>
-                The Great Acceleration Data (October 2014)
+                The Great Acceleration Data
                 <!-- <input id="xnode-0" data-id="custom-0" type="checkbox" /> The Great Acceleration Data (October 2014) -->
               </label>
               <ul>
@@ -95,7 +95,7 @@
             <div class="float-right">
               <!-- (Added {{ dataset.date }}) -->
               <a href="{{ url_for('views.view_dataset', id=dataset.id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Details</a>
-              <a href="{{ url_for('views.update_dataset', id=dataset.id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Update</a>
+              <a href="{{ url_for('views.update_dataset', id=dataset.id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Edit</a>
               <a href="/delete/{{dataset.id}}">&times;</a>
             </div>
           </li>
@@ -103,11 +103,47 @@
         </ul>
         <a href="{{ url_for('views.add') }}" class="btn btn-primary btn-lg btn-block active" role="button" aria-pressed="true">Add dataset</a>
       </div>
+
     </div>
 
-    <div class="col-md" id="chartdiv" style="height:600px"></div>
+    <!-- Right column -->
+    <div class="col">
+
+      <div class="row-md">
+        
+        <!-- <a class="btn btn-link" data-toggle="collapse" href="#control_panel" role="button" aria-expanded="false" aria-controls="control_panel">
+          Control panel
+        </a> -->
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#control_panel" aria-expanded="true" aria-controls="control_panel">
+          <i class="fa" aria-hidden="true">&nbsp;</i>Control panel
+        </button>
+        
+        <div class="collapse" id="control_panel">
+          <div class="card card-body" style="margin:10px;margin-top:0px;">
+
+            <!-- Control panel widgets -->
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="stack_plots_checkbox">
+              <label class="form-check-label" for="stack_plots_checkbox">Stack charts</label>
+              <br />
+              <input type="checkbox" class="form-check-input" id="foo">
+              <label class="form-check-label" for="foo">Another</label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <p id="chartstack">
+        <!-- <div overflow="auto" class="row-md" id="chartdiv0" style="height:100px; border: 1px solid"></div> -->
+        <!-- <div overflow="auto" class="row-md" id="chartdiv2" style="height:100px; border: 1px solid">Chart 2</div> -->
+      </p>
+    </div>
 
   </div>
+
+
 </div>
+
 
 {% endblock %}
