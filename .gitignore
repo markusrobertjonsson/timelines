@@ -3,6 +3,8 @@ __pycache__/*
 
 venv/*
 
+website/database.db
+
 tests/__pycache__/*
 
 tests/exported_files/*.csv
