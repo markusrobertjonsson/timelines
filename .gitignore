@@ -3,6 +3,8 @@ __pycache__/*
 
 venv/*
 
+.vscode/*
+
 website/database.db
 
 tests/__pycache__/*
