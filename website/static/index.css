@@ -1,3 +1,9 @@
+/*
+body {
+    zoom: 0.85;
+}
+*/
+
 ul.hummingbird-base {
     padding: 10px;  /* To override hummingbird's default 40 */
 }
@@ -55,3 +61,21 @@ div.resizable_s {
 [data-toggle="collapse"].collapsed .fa:before {
     content: "\f13a";
 }
+
+.hummingbird-treeview,
+.hummingbird-treeview *
+{
+    list-style: none;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.hummingbird-treeview input[type=checkbox] {
+    width : 16px;
+    height :16px;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* XXX testing for editable table */
+.pt-3-half { padding-top: 1.4rem; }

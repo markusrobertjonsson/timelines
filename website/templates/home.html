@@ -119,18 +119,53 @@
         </button>
         
         <div class="collapse" id="control_panel">
-          <div class="card card-body" style="margin:10px;margin-top:0px;">
+          <div class="card card-body">
 
-            <!-- Control panel widgets -->
-            <div class="form-check">
+            <!-- Time unit (Auto/YBC) -->
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="time_unit">Time unit:</label>
+              </div>
+              <select class="custom-select" id="time_unit" onchange="toggle_time_unit_current_year()">
+                <option selected value="auto">Auto</option>
+                <option value="ybc">Years before current year</option>
+              </select>
+
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="input_current_year" id="label_current_year">Current year:</label>
+              </div>
+              <input type="text" class="form-control" id="input_current_year">
+            </div>
+
+            <div class="form-check" id="log_time_div" style="margin-top:10px;">
+              <input type="checkbox" class="form-check-input" id="log_time_checkbox">
+              <label class="form-check-label" for="log_time_checkbox" id="label_log_time_checkbox">Time axis log scale</label>
+            </div>
+
+              <!-- <div class="input-group-text">
+                <input type="checkbox" aria-label="Checkbox for following text input">
+              </div> -->
+
+
+            <!-- <div class="form-check">
               <input type="checkbox" class="form-check-input" id="stack_plots_checkbox">
               <label class="form-check-label" for="stack_plots_checkbox">Stack charts</label>
               <br />
               <input type="checkbox" class="form-check-input" id="foo">
-              <label class="form-check-label" for="foo">Another</label>
-            </div>
+              <label class="form-check-label" for="foo">Time axis log scale</label>
+            </div> -->
+
+
 
           </div>
+
+          <div class="card card-body">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="stack_plots_checkbox">
+              <label class="form-check-label" for="stack_plots_checkbox">Stack charts</label>
+            </div>
+          </div>
+
         </div>
       </div>
 

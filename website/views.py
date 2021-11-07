@@ -1,6 +1,4 @@
-import json
 import os
-import re
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for, send_from_directory
 from flask_login import login_required, current_user
 from .models import DataSet
@@ -82,12 +80,13 @@ def _get_for_plot(ids):
         legend = dataset.legend
         if dataset.data_scale is not None:
             legend = legend + " (10^" + str(dataset.data_scale) + " " + dataset.data_unit + ")"
-        else:
+        elif dataset.data_unit != "None":
             legend = legend + " (" + dataset.data_unit + ")"
         legends.append(legend)
         data_is_qualitative.append(dataset.data_is_qualitative)
 
-    return jsonify(xydata=xydata, legends=legends, data_is_qualitative=data_is_qualitative)  # Cannot return the list, must return a json
+    # Cannot return the list, must return a json
+    return jsonify(xydata=xydata, legends=legends, data_is_qualitative=data_is_qualitative)
 
 
 @views.route('/details/<int:id>')
@@ -108,7 +107,7 @@ def update_dataset(id):
         dataset_to_update.label = request.form.get('label')
         dataset_to_update.description = request.form.get('description')
         dataset_to_update.time_values = to_csv(request.form.get('time_values'))
-        dataset_to_update.data_values = to_csv(request.form.get('data_values'))        
+        dataset_to_update.data_values = to_csv(request.form.get('data_values'))
         dataset_to_update.data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))
         dataset_to_update.legend = request.form.get('legend')
         dataset_to_update.data_unit = request.form.get('data_unit')
@@ -145,19 +144,20 @@ def update_dataset(id):
 #     legend = StringField("String for legend in graph:",
 #                          validators=[DataRequired(), Length(min=3, max=LABEL_MAXLENGTH)])
 
-
-
-
 @views.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
     form = AddDataSetForm()
-    if form.validate_on_submit():
+    # if form.validate_on_submit():
+    if request.method == 'POST':
         label = request.form.get('label')
         description = request.form.get('description')
         time_values = to_csv(request.form.get('time_values'))
         data_values = to_csv(request.form.get('data_values'))
-        data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))  # request.form.get('data_is_qualitative') is None if checkbox unchecked, and 'y' if checked. Weird.
+
+        # request.form.get('data_is_qualitative') is None if checkbox unchecked, and 'y' if checked. Weird.
+        data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))
+
         legend = request.form.get('legend')
         data_unit = request.form.get('data_unit')
         new_dataset = DataSet(label=label,

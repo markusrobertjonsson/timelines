@@ -43,7 +43,6 @@ $(document).ready(function() {
     render_plots();
   });
   
-
 //  async function render_plots() {
   function render_plots() {
     // if (event.target.checked) {   // Or event.target.value
@@ -77,7 +76,8 @@ $(document).ready(function() {
   // }
 
   var timeAxes = [];
-
+  var valueAxes = [];
+  
   function plot(plotdata) {
     const nTimelines = plotdata.legends.length;
     // alert(plotdata.data_is_qualitative);
@@ -103,14 +103,45 @@ $(document).ready(function() {
     let chartdata = plotdata.xydata;
 
     // Convert time string to Date-objects (e.g. from "1854" to new Date("1854"))
-    // and find min and max
+    for (let i = 0; i < chartdata.length; i++) {
+      let dict = chartdata[i];
+      for (let key in dict) {
+        if (key.startsWith("time")) {
+          chartdata[i][key] = new Date(chartdata[i][key]);
+        }
+      }
+    }
+
+    // Transform time axis values to Years Before Current (YBC) if set
+    let timeUnit = document.getElementById("time_unit").value;
+    let isLogTime = document.getElementById("log_time_checkbox").checked;
+    let isYBC = (timeUnit === "ybc");
+    if (isYBC) {
+      let MS_PER_YEAR =  1000 * 60 * 60 * 24 * 365.25;
+      currentDateStr = document.getElementById("input_current_year").value;
+      currentDate = new Date(currentDateStr);
+      for (let i = 0; i < chartdata.length; i++) {
+        let dict = chartdata[i];
+        for (let key in dict) {
+          if (key.startsWith("time")) {
+            let diffMs = currentDate.getTime() - chartdata[i][key].getTime();
+            let diffYr = diffMs / MS_PER_YEAR;
+            if (isLogTime)
+              chartdata[i][key] = -Math.log10(diffYr);
+            else
+              chartdata[i][key] = -diffYr;
+          }
+        }
+      }
+    }
+
+    // Find min and max value of x-axis
     minTime = Infinity;
     maxTime = -Infinity;
     for (let i = 0; i < chartdata.length; i++) {
       let dict = chartdata[i];
       for (let key in dict) {
         if (key.startsWith("time")) {
-          chartdata[i][key] = new Date(chartdata[i][key]);
           if (chartdata[i][key] < minTime) {
             minTime = chartdata[i][key];
           }
@@ -120,8 +151,10 @@ $(document).ready(function() {
         }
       }
     }
-    minTime = minTime.getTime();
-    maxTime = maxTime.getTime();
+    if (!isYBC) {
+      minTime = minTime.getTime();
+      maxTime = maxTime.getTime();
+    }
 
     // anyQualitative = plotdata.data_is_qualitative.some(x => x);
     allQualitative = plotdata.data_is_qualitative.every(x => x);
@@ -131,6 +164,7 @@ $(document).ready(function() {
     let charts = [];
     charts[nCharts - 1] = undefined;
     timeAxes[nCharts - 1] = undefined;
+    valueAxes[nCharts - 1] = undefined;
     for (let i = nCharts - 1; i >= 0; i--) {
       let chartdiv = document.createElement("div");
       chartdiv.style.height = "300px";
@@ -147,7 +181,13 @@ $(document).ready(function() {
     
       chart.data = chartdata;
       
-      let timeAxis = chart.xAxes.push(new am4charts.DateAxis());
+      let timeAxis;
+      if (isYBC) {
+        timeAxis = chart.xAxes.push(new am4charts.ValueAxis());
+      }
+      else {
+        timeAxis = chart.xAxes.push(new am4charts.DateAxis());
+      } 
       timeAxes[i] = timeAxis;
       if (i == 0) {
         timeAxis.title.text = "Time";
@@ -169,7 +209,6 @@ $(document).ready(function() {
       timeInterval = maxTime - minTime;
       timeAxis.min = minTime - timeInterval * 0.05;
       timeAxis.max = maxTime + timeInterval * 0.05;
-      //timeAxis.strictMinMax = true;
 
       // timeAxis.baseInterval = {
       //   "timeUnit": "month",
@@ -178,23 +217,26 @@ $(document).ready(function() {
 
       // timeAxis.layout = "none";
 
-      timeAxis.events.on("startchanged", timeAxisChanged);
-      timeAxis.events.on("endchanged", timeAxisChanged);
+      timeAxis.events.on("startchanged", timeAxisChanged);  // Dragging the left limit
+      timeAxis.events.on("endchanged", timeAxisChanged);  // Dragging the right limit
 
       // timeAxis.logarithmic = true;
 
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis.width = 40;
+      valueAxes[i] = valueAxis;
+      valueAxis.width = 40; // To get alignment for stacked charts
 
-      if ((is_stacked && plotdata.data_is_qualitative[i]) || allQualitative) {
+      const chart_is_qual = (is_stacked && plotdata.data_is_qualitative[i]) || allQualitative;
+
+      if (chart_is_qual) {
         // Make this chart qualitative-type
 
         // timeAxis.renderer.grid.template.disabled = true;
         // timeAxis.renderer.labels.template.disabled = true;
         timeAxis.tooltip.disabled = true;
 
-        // valueAxis.min = 0;
-        // valueAxis.strictMinMax = true;
+        valueAxis.min = -0.1;
+        valueAxis.strictMinMax = true;
         valueAxis.renderer.grid.template.disabled = true;
         valueAxis.renderer.labels.template.disabled = true;
         valueAxis.renderer.baseGrid.disabled = true;
@@ -208,11 +250,16 @@ $(document).ready(function() {
         chart.legend.position = "bottom";
         chart.legend.halign = "mid";
         // chart.legend.width = 150;
+
       }
 
       // Add cursor
       chart.cursor = new am4charts.XYCursor();
       chart.cursor.behavior = "none";  // Disable zoom since difficult to get synced DateAxes for stacked plots
+      if (chart_is_qual) {
+        chart.cursor.lineY.disabled = true;
+      }
+
 
       // Horizontal scrollbar (only to the bottom chart of stacked)
       if (!is_stacked || i == 0) {
@@ -224,12 +271,14 @@ $(document).ready(function() {
       }
 
       // Vertical scrollbar
-      chart.scrollbarY = new am4core.Scrollbar();
-      chart.scrollbarY.parent = chart.leftAxesContainer;
-      chart.scrollbarY.startGrip.icon.disabled = true;
-      chart.scrollbarY.endGrip.icon.disabled = true;  
-      chart.scrollbarY.minWidth = 5;    
-      chart.scrollbarY.toBack();
+      if (!chart_is_qual) {
+        chart.scrollbarY = new am4core.Scrollbar();
+        chart.scrollbarY.parent = chart.leftAxesContainer;
+        chart.scrollbarY.startGrip.icon.disabled = true;
+        chart.scrollbarY.endGrip.icon.disabled = true;  
+        chart.scrollbarY.minWidth = 5;    
+        chart.scrollbarY.toBack();
+      }
 
       // Add export menu (in top right corner of chart)
       chart.exporting.menu = new am4core.ExportMenu();
@@ -254,7 +303,12 @@ $(document).ready(function() {
       series.connect = false;
       series.autoGapCount = Infinity;
       series.dataFields.valueY = "value" + i;
-      series.dataFields.dateX = "time" + i;    
+      if (isYBC) {
+        series.dataFields.valueX = "time" + i;
+      }
+      else {
+        series.dataFields.dateX = "time" + i;
+      }
       series.dataItems.template.locations.dateX = 0;
 
       // if ((is_stacked || nTimelines === 1) && plotdata.data_is_qualitative[i]) {
@@ -269,6 +323,13 @@ $(document).ready(function() {
         labelBullet.label.paddingTop = 20;
         labelBullet.label.paddingBottom = 20;
         labelBullet.label.fill = am4core.color("#999");
+
+        circleBullet.setStateOnChildren = true;
+        circleBullet.states.create("hover");
+        circleBullet.circle.states.create("hover").properties.radius = 10;
+        labelBullet.setStateOnChildren = true;
+        labelBullet.states.create("hover").properties.scale = 1.1;
+        labelBullet.label.states.create("hover").properties.fill = am4core.color("#000");
       }
     }
 
@@ -285,7 +346,15 @@ $(document).ready(function() {
       timeAxes[j].min = start;
       timeAxes[j].max = end;
       timeAxes[j].strictMinMax = true;
+
+      valueAxes[j].includeAllValues = false;
+      // valueAxes[j].min = valueAxes[j].minZoomed;
+      // valueAxes[j].max = valueAxes[j].maxZoomed;
+      //valueAxes[j].strictMinMax = true;
     }
+
+    
+
   }  
 
   // XXX disable and hide the checkbox
@@ -294,7 +363,45 @@ $(document).ready(function() {
 
   $("#treeview").hummingbird("expandAll");  // XXX temporary
 
+  // To make enabling correct at reload
+  toggle_time_unit_current_year();
 });
+
+
+function toggle_time_unit_current_year() {
+  let selValue = document.getElementById("time_unit").value;
+  lbl = document.getElementById("label_current_year");
+  lst = document.getElementById("input_current_year");
+  // logCheck = document.getElementById("log_time_checkbox");
+  // logLabel = document.getElementById("label_log_time_checkbox");
+  logDiv = document.getElementById("log_time_div");
+  
+  if (selValue === "auto") {
+    lbl.style.visibility = "hidden";
+    lst.style.visibility = "hidden";
+
+    // logLabel.style.display = "none";
+    // logCheck.style.display = "none";
+    logDiv.style.display = "none";
+
+
+    /* To make them disappear altogether (and not even take up any space) */
+    // lbl.style.display = "none";
+    // lst.style.display = "none";
+  }
+  else {
+    lbl.style.visibility = "visible";
+    lst.style.visibility = "visible";
+    // logLabel.style.display = "block";
+    // logCheck.style.display = "block";
+    logDiv.style.display = "block";
+
+    /* To make them disappear altogether (and not even take up any space) */
+    // lbl.style.display = "block";
+    // lst.style.display = "block";
+  }
+  // alert(selValue);
+}
 
 
 function deleteNote(noteId) {
