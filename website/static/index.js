@@ -38,11 +38,21 @@ $(document).ready(function() {
     render_plots();
   });
 
-  // Set event listener to checkboxes in Control panel
+  // Set event listener to controls in Control panel
   $('#stack_plots_checkbox').change(function(event) {
     render_plots();
   });
+  $('#log_time_checkbox').change(function(event) {
+    render_plots();
+  });
+  $('#time_unit').change(function(event) {
+    render_plots();
+  });
+  $('#input_current_year').change(function(event) {
+    render_plots();
+  });
   
+
 //  async function render_plots() {
   function render_plots() {
     // if (event.target.checked) {   // Or event.target.value
