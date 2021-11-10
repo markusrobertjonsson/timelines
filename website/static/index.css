@@ -1,8 +1,6 @@
-/*
-body {
+div#left-column {
     zoom: 0.85;
 }
-*/
 
 ul.hummingbird-base {
     padding: 10px;  /* To override hummingbird's default 40 */
