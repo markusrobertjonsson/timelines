@@ -66,14 +66,32 @@
                   </li>
                 {% endfor %}
 
-                <li data-id="1">
+                <li> <!-- data-id="1" -->
                   <label>
                     <input class="hummingbird-end-node" id={{'predef' ~ cnt[0]|string}} type="checkbox" /> Primary energy use
                   </label>
-                </li>                
+                </li>
 
               </ul>
             </li>
+
+            {% if cnt.append(cnt.pop() + 1) %}{% endif %}  <!-- Instead of cnt=cnt+1: workaround for Jinja2 scope -->
+
+            <li data-id="1">
+              <i class="fa fa-plus"></i>
+              <label>
+                Fecal microbiota transplant
+                <!-- <input id="xnode-0" data-id="custom-0" type="checkbox" /> The Great Acceleration Data (October 2014) -->
+              </label>
+              <ul>
+                <li data-id="2">
+                  <label>
+                    <input class="hummingbird-end-node" id={{'predef' ~ cnt[0]|string}} type="checkbox" /> Procedures
+                  </label>
+                </li>
+              </ul>
+            </li>
+
           </ul>
         </div>
     

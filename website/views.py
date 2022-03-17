@@ -89,7 +89,7 @@ def _get_for_plot(ids):
         legend = dataset.legend
         if dataset.data_scale is not None:
             legend = legend + " (10^" + str(dataset.data_scale) + " " + dataset.data_unit + ")"
-        elif dataset.data_unit != "None":
+        elif dataset.data_unit is not None:
             legend = legend + " (" + dataset.data_unit + ")"
         legends.append(legend)
         data_is_qualitative.append(dataset.data_is_qualitative)

@@ -1,8 +1,7 @@
 from . import db  # From current package ("website") import db
 from .models import DataSet
-from .predefined_data_json import pd, primary_energy_use
+from .predefined_data_json import pd, primary_energy_use, fmt
 from .util import list_to_csv
-
 
 def add_predefined():
 
@@ -53,8 +52,20 @@ def add_predefined():
     db.session.add(dataset)
     added_datasets.append(dataset)
 
+    # FMT
+    dataset = DataSet(id_predef='predef' + str(len(added_datasets) + 1),
+                      label=fmt['label'],
+                      description=fmt['description'],
+                      time_values=to_csv(fmt['time_values']),
+                      data_values=to_csv(fmt['data_values']),
+                      legend=fmt['legend'],
+                      data_unit=fmt['data_unit'],
+                      data_scale=fmt['data_scale'],
+                      data_is_qualitative=fmt['data_is_qualitative'])
+    db.session.add(dataset)
+    added_datasets.append(dataset)
+
     db.session.commit()
-    return added_datasets  # XXX No need to return the entire thing
 
     # id = db.Column(db.Integer, primary_key=True)
     # label = db.Column(db.String(LABEL_MAXLENGTH), unique=True)   # For checkbox lists

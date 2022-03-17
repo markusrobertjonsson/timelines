@@ -5270,6 +5270,16 @@ telecommunications = {
         "legend": "Telecommunications, World"}
 }
 
+pd = {"population": population,
+      "real_gdp": real_gdp,
+      "fdi": fdi,
+      "urban_population": urban_population,
+      "fertilizer_consumption": fertilizer_consumption,
+      "large_dams": large_dams,
+      "global_water_use": water_use,
+      "paper_production": paper_production,
+      "transportation": transportation,
+      "telecommunications": telecommunications}
 
 ### Primary energy use ###
 primary_energy_use = {
@@ -5603,54 +5613,21 @@ primary_energy_use = {
 }
 
 
-pd = {"population": population,
-      "real_gdp": real_gdp,
-      "fdi": fdi,
-      "urban_population": urban_population,
-      "fertilizer_consumption": fertilizer_consumption,
-      "large_dams": large_dams,
-      "global_water_use": water_use,
-      "paper_production": paper_production,
-      "transportation": transportation,
-      "telecommunications": telecommunications}
-
-
-
-
-
-# ### Urban population ###
-# urban_population = {
-#     "time_values": """
-# """,
-#     "data_unit": "Number of",
-#     "data_scale": 9,
-#     "description": "Urban population",
-
-#     # OECD
-#     "oecd": {
-#         "label": "OECD",
-#         "data_values": """
-# """,
-#         "legend": "OECD"},
-
-#     # BRICS
-#     "brics": {
-#         "label": "BRICS",
-#         "data_values": """
-# """,
-#         "legend": "BRICS"},
-
-#     # Rest
-#     "rest": {
-#         "label": "Rest",
-#         "data_values": """
-# """,
-#         "legend": "Rest"},
-
-#     # World
-#     "world": {
-#         "label": "World",
-#         "data_values": """
-# """,
-#         "legend": "World"}
-# }
+### FMT ###
+fmt = {
+    "time_values": "350, 1550, 1650, 1958, 1989, 1991, 2000, 2010",
+    "data_unit": None,
+    "data_scale": None,
+    "description": "Fecal microbiota transplant",
+    "label": "Fecal microbiota transplant",
+    "data_values": """'First report of human fecal suspension by mouth for patients with food poisoning or severe diarrhea'
+'Variety of stool products used for treatment of diarrhea fever pain vomitting constipation'
+'FMT use in veterinary medicine - transfaunation'
+'First use of fecal enemas in humans for treatment of pseudomembranous colitis'
+'Up to here retention enema most common technique'
+'Nasogastric tube'
+'Colonoscopy'
+'Self-administered enema'""",
+    "legend": None,
+    "data_is_qualitative": True
+}

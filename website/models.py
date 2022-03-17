@@ -18,8 +18,8 @@ class DataSet(db.Model):
     # data_annotations = db.Column(db.String(DATA_MAXLENGTH))
     data_is_qualitative = db.Column(db.Boolean, unique=False, default=False)
     data_scale = db.Column(db.Integer, nullable=True)  # Power of ten
-    data_unit = db.Column(db.String(UNIT_MAXLENGTH))
-    legend = db.Column(db.String(LABEL_MAXLENGTH))
+    data_unit = db.Column(db.String(UNIT_MAXLENGTH), nullable=True)  # null only for qualitative data
+    legend = db.Column(db.String(LABEL_MAXLENGTH), nullable=True)  # null only for qualitative data
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)  # null means predefined data
 
