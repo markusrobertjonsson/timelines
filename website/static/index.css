@@ -75,5 +75,8 @@ div.resizable_s {
     margin: 0px;
 }
 
-/* XXX testing for editable table */
-.pt-3-half { padding-top: 1.4rem; }
+/* For editable table */
+td.pt-3-half {  /* .pt-3-half */
+    padding: 2px;
+    vertical-align: middle;
+}

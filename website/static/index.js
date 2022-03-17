@@ -16,7 +16,7 @@ $(document).ready(function() {
   $("#treeview").hummingbird();
 
   // amCharts configuration
-  //  am4core.useTheme(am4themes_animated);
+  // am4core.useTheme(am4themes_animated);
   am4core.options.autoDispose = true;
 
   // Set event listener to checkboxes in "My datasets" list
@@ -26,14 +26,14 @@ $(document).ready(function() {
 
   // Set event listener to checkboxes in "Predefined datasets" tree
 
-  // This does not work for some reason
+  // This does not work for some reason...
   // $("#treeview").on("nodeChecked", function(){
   //   alert("jjj");
   //   render_plots();
   // });
   // $("#treeview").on("nodeUnchecked", render_plots);
 
-  // so we do this instead
+  // ...so we do this instead
   $('.hummingbird-treeview').change(function(event) {
     render_plots();
   });
@@ -379,7 +379,10 @@ $(document).ready(function() {
 
 
 function toggle_time_unit_current_year() {
-  let selValue = document.getElementById("time_unit").value;
+  const time_unit = document.getElementById("time_unit");
+  if (time_unit === null)
+      return
+  let selValue = time_unit.value;
   lbl = document.getElementById("label_current_year");
   lst = document.getElementById("input_current_year");
   // logCheck = document.getElementById("log_time_checkbox");

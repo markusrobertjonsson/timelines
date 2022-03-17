@@ -5,7 +5,7 @@ from .models import DataSet
 from .forms import AddDataSetForm
 from . import db
 from .predefined_data import add_predefined
-from .util import to_csv, to_bool
+from .util import list_to_csv, to_bool, table_to_lists
 
 views = Blueprint('views', __name__)
 
@@ -25,15 +25,24 @@ def update_predef():
     return redirect(url_for('views.home'))
 
 
+# @views.route('/', methods=['GET'])
+# @login_required
+# def home():
+#     form = AddDataSetForm()
+#     return render_template("home.html", user=current_user, form=form)
+
+
 @views.route('/', methods=['GET'])
-@login_required
+def landing():
+    return render_template("landing.html")
+
+
+@views.route('/home', methods=['GET'])
 def home():
-    form = AddDataSetForm()
-    return render_template("home.html", user=current_user, form=form)
+    return render_template("home.html", user=current_user)
 
 
 @views.route('/get_for_plot/<ids>')
-@login_required
 def get_for_plot(ids):
     ids_list = ids.split(',')
     return _get_for_plot(ids_list)
@@ -64,8 +73,8 @@ def _get_for_plot(ids):
         else:
             dataset = DataSet.query.filter(DataSet.id_predef == id).first_or_404()
         for time, value in zip(dataset.time_values.split(','), dataset.data_values.split(',')):
-            x = time.strip()
-            y = value.strip()
+            x = time.strip()[1:-1]  # Remove the quotation marks
+            y = value.strip()[1:-1]  # Remove the quotation marks
 
             if dataset.data_is_qualitative:
                 xydata.append({"time" + str(ind): x,
@@ -100,14 +109,20 @@ def view_dataset(id):
 @views.route('/update/<int:id>', methods=['POST', 'GET'])
 @login_required
 def update_dataset(id):
-
     dataset_to_update = DataSet.query.get_or_404(id)
     form = AddDataSetForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():  # Update the dataset
+
+        # This may not respect the order of the values, so instead use table_to_lists
+        # time_values = request.form.getlist("time_value")
+        # data_values = request.form.getlist("data_value")
+        time_values, data_values = table_to_lists(request.form)
+        dataset_to_update.time_values = list_to_csv(time_values)
+        dataset_to_update.data_values = list_to_csv(data_values)
+
         dataset_to_update.label = request.form.get('label')
         dataset_to_update.description = request.form.get('description')
-        dataset_to_update.time_values = to_csv(request.form.get('time_values'))
-        dataset_to_update.data_values = to_csv(request.form.get('data_values'))
         dataset_to_update.data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))
         dataset_to_update.legend = request.form.get('legend')
         dataset_to_update.data_unit = request.form.get('data_unit')
@@ -123,8 +138,8 @@ def update_dataset(id):
         #     form[key].data = dataset_to_update[key]
         form.label.data = dataset_to_update.label
         form.description.data = dataset_to_update.description
-        form.time_values.data = dataset_to_update.time_values
-        form.data_values.data = dataset_to_update.data_values
+        # form.time_values.data = dataset_to_update.time_values
+        # form.data_values.data = dataset_to_update.data_values
         form.data_is_qualitative.data = dataset_to_update.data_is_qualitative
         form.data_unit.data = dataset_to_update.data_unit
         form.legend.data = dataset_to_update.legend
@@ -148,12 +163,15 @@ def update_dataset(id):
 @login_required
 def add():
     form = AddDataSetForm()
-    # if form.validate_on_submit():
-    if request.method == 'POST':
+    # if request.method == 'POST':
+    if form.validate_on_submit():
         label = request.form.get('label')
         description = request.form.get('description')
-        time_values = to_csv(request.form.get('time_values'))
-        data_values = to_csv(request.form.get('data_values'))
+
+        # This may not respect the order of the values, so instead use table_to_lists
+        # time_values = request.form.getlist("time_value")
+        # data_values = request.form.getlist("data_value")
+        time_values, data_values = table_to_lists(request.form)
 
         # request.form.get('data_is_qualitative') is None if checkbox unchecked, and 'y' if checked. Weird.
         data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))
@@ -162,8 +180,8 @@ def add():
         data_unit = request.form.get('data_unit')
         new_dataset = DataSet(label=label,
                               description=description,
-                              time_values=time_values,
-                              data_values=data_values,
+                              time_values=list_to_csv(time_values),
+                              data_values=list_to_csv(data_values),
                               data_is_qualitative=data_is_qualitative,
                               legend=legend,
                               data_unit=data_unit,
