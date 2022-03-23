@@ -5,7 +5,7 @@ from .models import DataSet
 from .forms import AddDataSetForm
 from . import db
 from .predefined_data import add_predefined
-from .util import list_to_csv, to_bool, table_to_lists
+from .util import to_bool, table_to_csv, csv_to_list
 
 views = Blueprint('views', __name__)
 
@@ -19,7 +19,7 @@ def fav():
 def update_predef():
     try:
         add_predefined()
-        flash('Dataset updated!', category='success')
+        flash('Public datasets updated!', category='success')
     except Exception as e:
         flash(f'There was an error updating the database: {e}', category='error')
     return redirect(url_for('views.home'))
@@ -72,9 +72,12 @@ def _get_for_plot(ids):
             dataset = DataSet.query.get_or_404(int(id))
         else:
             dataset = DataSet.query.filter(DataSet.id_predef == id).first_or_404()
-        for time, value in zip(dataset.time_values.split(','), dataset.data_values.split(',')):
-            x = time.strip()[1:-1]  # Remove the quotation marks
-            y = value.strip()[1:-1]  # Remove the quotation marks
+        times = csv_to_list(dataset.time_values)
+        datas = csv_to_list(dataset.data_values)
+
+        for x, y in zip(times, datas):
+            # x = time.strip()[1:-1]  # Remove the quotation marks
+            # y = data.strip()[1:-1]  # Remove the quotation marks
 
             if dataset.data_is_qualitative:
                 xydata.append({"time" + str(ind): x,
@@ -111,15 +114,14 @@ def view_dataset(id):
 def update_dataset(id):
     dataset_to_update = DataSet.query.get_or_404(id)
     form = AddDataSetForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():  # Update the dataset
 
-        # This may not respect the order of the values, so instead use table_to_lists
+        # This may not respect the order of the values, so instead use table_to_csv (util.table_to_lists)
         # time_values = request.form.getlist("time_value")
         # data_values = request.form.getlist("data_value")
-        time_values, data_values = table_to_lists(request.form)
-        dataset_to_update.time_values = list_to_csv(time_values)
-        dataset_to_update.data_values = list_to_csv(data_values)
+        time_values, data_values = table_to_csv(request.form)
+        dataset_to_update.time_values = time_values
+        dataset_to_update.data_values = data_values
 
         dataset_to_update.label = request.form.get('label')
         dataset_to_update.description = request.form.get('description')
@@ -171,7 +173,7 @@ def add():
         # This may not respect the order of the values, so instead use table_to_lists
         # time_values = request.form.getlist("time_value")
         # data_values = request.form.getlist("data_value")
-        time_values, data_values = table_to_lists(request.form)
+        time_values, data_values = table_to_csv(request.form)
 
         # request.form.get('data_is_qualitative') is None if checkbox unchecked, and 'y' if checked. Weird.
         data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))
@@ -180,8 +182,8 @@ def add():
         data_unit = request.form.get('data_unit')
         new_dataset = DataSet(label=label,
                               description=description,
-                              time_values=list_to_csv(time_values),
-                              data_values=list_to_csv(data_values),
+                              time_values=time_values,
+                              data_values=data_values,
                               data_is_qualitative=data_is_qualitative,
                               legend=legend,
                               data_unit=data_unit,

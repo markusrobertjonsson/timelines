@@ -52,7 +52,6 @@ $(document).ready(function() {
             else if ($old_name.startsWith('data_value')) {
                 $new_name = 'data_value' + $n_rows.toString();
             }
-            alert("Setting name " + $new_name);
             $inputs.get(i).setAttribute('name', $new_name);
         }
         

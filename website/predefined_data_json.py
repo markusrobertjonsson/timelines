@@ -67,6 +67,7 @@ population = {
         "legend": "Population, World"}
 }
 
+
 ### Real GDP ###
 real_gdp = {
     "time_values": """1750
@@ -5620,13 +5621,13 @@ fmt = {
     "data_scale": None,
     "description": "Fecal microbiota transplant",
     "label": "Fecal microbiota transplant",
-    "data_values": """'First report of human fecal suspension by mouth for patients with food poisoning or severe diarrhea'
-'Variety of stool products used for treatment of diarrhea fever pain vomitting constipation'
-'FMT use in veterinary medicine - transfaunation'
-'First use of fecal enemas in humans for treatment of pseudomembranous colitis'
-'Up to here retention enema most common technique'
-'Nasogastric tube'
-'Colonoscopy'
+    "data_values": """'First report of human fecal suspension by mouth for patients with food poisoning or severe diarrhea',
+'Variety of stool products used for treatment of diarrhea fever pain vomitting constipation',
+'FMT use in veterinary medicine - transfaunation',
+'First use of fecal enemas in humans for treatment of pseudomembranous colitis',
+'Up to here retention enema most common technique',
+'Nasogastric tube',
+'Colonoscopy',
 'Self-administered enema'""",
     "legend": None,
     "data_is_qualitative": True

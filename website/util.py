@@ -1,4 +1,4 @@
-# import re
+import re
 
 TIME_VALUE = 'time_value'
 DATA_VALUE = 'data_value'
@@ -6,7 +6,7 @@ DATA_VALUE = 'data_value'
 
 def list_to_csv(x):
     """Create a comma-separated string representing the specified list."""
-    if x is None:  # XXX
+    if x is None:
         return ""
     x_quotes = list()
     for s in x:
@@ -14,24 +14,7 @@ def list_to_csv(x):
             x_quotes.append('"' + s + '"')
         else:
             x_quotes.append('""')
-    # x_quotes = ['"' + s + '"' for s in x]
     return ','.join(x_quotes)
-    # print(s)
-    # input()
-
-    # # Remove strange carriage returns (Windows)
-    # s = s.replace('\r', '')
-
-    # # Replace newline with comma
-    # s = s.replace('\n', ',')
-
-    # # Replace multiple spaces with a single one
-    # s = ' '.join(s.split())
-
-    # # Split with respect to comma, semicolon, space, and tab
-    # # s_list = re.split(r'[,;\t ]', s)
-    # return s  # ','.join(s_list)
-
 
 def to_bool(s):
     """Return True if the specified string is 'y' and False if it is None. Assertion False otherwise."""
@@ -78,3 +61,30 @@ def table_to_lists(form):
     assert(None not in data_values), f"None is in {data_values}"
 
     return time_values, data_values
+
+
+def table_to_csv(form):
+    time_values, data_values = table_to_lists(form)
+    return list_to_csv(time_values), list_to_csv(data_values)
+
+
+def csv_to_list(csv_string):
+    csv_list = csv_string.split(',')
+    for i, s in enumerate(csv_list):
+        csv_list[i] = csv_list[i].strip()
+
+        # If string begins and ends with double-quote, remove thsee double-quotes
+        if len(csv_list[i]) >= 2:
+            first = csv_list[i][0]
+            last = csv_list[i][-1]
+            if (first == '"' and last == '"') or (first == "'" and last == "'"):
+                csv_list[i] = csv_list[i][1:-1]
+    return csv_list
+
+
+def string_to_csv(string):
+    # Split with respect to comma and newline
+    l = re.split('\n|,', string)
+    l = [x.strip() for x in l]
+
+    return list_to_csv(l)

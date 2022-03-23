@@ -9,8 +9,8 @@ $(document).ready(function() {
   });
 
   // Hummingbird (list/tree of checkboxes) initialization
-  $.fn.hummingbird.defaults.collapsedSymbol = "fa-arrow-circle-o-right";
-  $.fn.hummingbird.defaults.expandedSymbol = "fa-arrow-circle-o-down";
+  $.fn.hummingbird.defaults.collapsedSymbol = "fa-arrow-circle-right";
+  $.fn.hummingbird.defaults.expandedSymbol = "fa-arrow-circle-down";
   $.fn.hummingbird.defaults.checkDoubles = false;
 
   $("#treeview").hummingbird();
@@ -371,7 +371,7 @@ $(document).ready(function() {
   // $("#xnode-0").hide();
   // $("#xnode-0").prop('disabled', true);
 
-  $("#treeview").hummingbird("expandAll");  // XXX temporary
+  // $("#treeview").hummingbird("expandAll");  // XXX temporary
 
   // To make enabling correct at reload
   toggle_time_unit_current_year();

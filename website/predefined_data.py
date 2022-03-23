@@ -1,13 +1,16 @@
 from . import db  # From current package ("website") import db
 from .models import DataSet
 from .predefined_data_json import pd, primary_energy_use, fmt
-from .util import list_to_csv
+from .util import string_to_csv
 
 def add_predefined():
 
-    # First delete all non-user datasets
+    # First delete all public (non-user) datasets
     try:
-        num_rows_deleted = DataSet.query.filter(DataSet.user_id is None).delete()
+        # foo = DataSet.query.filter(DataSet.user_id is None).first_or_404()
+        # print(foo.label)
+
+        num_rows_deleted = DataSet.query.filter(DataSet.user_id == None).delete()
         db.session.commit()
         print(f"Deleted {num_rows_deleted} datasets.")
     except Exception as e:
@@ -32,8 +35,8 @@ def add_predefined():
             dataset = DataSet(id_predef='predef' + str(len(added_datasets) + 1),
                               label=label,
                               description=description,
-                              time_values=list_to_csv(time_values),
-                              data_values=list_to_csv(data_values),
+                              time_values=string_to_csv(time_values),
+                              data_values=string_to_csv(data_values),
                               legend=legend,
                               data_unit=data_unit,
                               data_scale=data_scale)
@@ -44,8 +47,8 @@ def add_predefined():
     dataset = DataSet(id_predef='predef' + str(len(added_datasets) + 1),
                       label=primary_energy_use['label'],
                       description=primary_energy_use['description'],
-                      time_values=list_to_csv(primary_energy_use['time_values']),
-                      data_values=list_to_csv(primary_energy_use['data_values']),
+                      time_values=primary_energy_use['time_values'],
+                      data_values=primary_energy_use['data_values'],
                       legend=primary_energy_use['legend'],
                       data_unit=primary_energy_use['data_unit'],
                       data_scale=primary_energy_use['data_scale'])
@@ -56,8 +59,8 @@ def add_predefined():
     dataset = DataSet(id_predef='predef' + str(len(added_datasets) + 1),
                       label=fmt['label'],
                       description=fmt['description'],
-                      time_values=to_csv(fmt['time_values']),
-                      data_values=to_csv(fmt['data_values']),
+                      time_values=fmt['time_values'],
+                      data_values=fmt['data_values'],
                       legend=fmt['legend'],
                       data_unit=fmt['data_unit'],
                       data_scale=fmt['data_scale'],
