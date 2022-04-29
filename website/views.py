@@ -5,7 +5,7 @@ from .models import DataSet
 from .forms import AddDataSetForm
 from . import db
 from .predefined_data import add_predefined
-from .util import to_bool, table_to_csv, csv_to_list
+from .util import to_bool, list_to_csv, csv_to_list
 
 views = Blueprint('views', __name__)
 
@@ -115,13 +115,11 @@ def update_dataset(id):
     dataset_to_update = DataSet.query.get_or_404(id)
     form = AddDataSetForm()
     if form.validate_on_submit():  # Update the dataset
+        dataset_to_update.time_values = list_to_csv(request.form.getlist("time_value"))
+        dataset_to_update.data_values = list_to_csv(request.form.getlist("data_value"))
 
-        # This may not respect the order of the values, so instead use table_to_csv (util.table_to_lists)
-        # time_values = request.form.getlist("time_value")
-        # data_values = request.form.getlist("data_value")
-        time_values, data_values = table_to_csv(request.form)
-        dataset_to_update.time_values = time_values
-        dataset_to_update.data_values = data_values
+        print(dataset_to_update.time_values)
+        print(dataset_to_update.data_values)
 
         dataset_to_update.label = request.form.get('label')
         dataset_to_update.description = request.form.get('description')
@@ -170,10 +168,10 @@ def add():
         label = request.form.get('label')
         description = request.form.get('description')
 
-        # This may not respect the order of the values, so instead use table_to_lists
-        # time_values = request.form.getlist("time_value")
-        # data_values = request.form.getlist("data_value")
         time_values, data_values = table_to_csv(request.form)
+
+        time_values = list_to_csv(request.form.getlist("time_value"))
+        data_values = list_to_csv(request.form.getlist("data_value"))
 
         # request.form.get('data_is_qualitative') is None if checkbox unchecked, and 'y' if checked. Weird.
         data_is_qualitative = to_bool(request.form.get('data_is_qualitative'))
