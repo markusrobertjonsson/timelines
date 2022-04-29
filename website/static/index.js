@@ -91,7 +91,7 @@ $(document).ready(function() {
   function plot(plotdata) {
     const nTimelines = plotdata.legends.length;
     // alert(plotdata.data_is_qualitative);
-    // alert(plotdata.xydata.length + " " + plotdata.legends.length);
+    // alert(plotdata.xydata[0]);
     // if (plotdata.xydata.length !== plotdata.legends.length) {
     //   throw new Error("Assertion failed");
     // }
@@ -161,7 +161,7 @@ $(document).ready(function() {
         }
       }
     }
-    if (!isYBC) {
+    if (!isYBC) {  // XXX needed?
       minTime = minTime.getTime();
       maxTime = maxTime.getTime();
     }
@@ -214,16 +214,17 @@ $(document).ready(function() {
       timeAxis.startLocation = 0;
 
       // 0: None of the last cell is shown (don't do that), 0.5: Half of the last cell is shown, 1: Full last cell is shown 
-      timeAxis.endLocation = 1;
+      timeAxis.endLocation = 0.5;
 
       timeInterval = maxTime - minTime;
       timeAxis.min = minTime - timeInterval * 0.05;
       timeAxis.max = maxTime + timeInterval * 0.05;
 
-      // timeAxis.baseInterval = {
-      //   "timeUnit": "month",
-      //   "count": 1
-      // };
+      // XXX hard-coded timeUnit. Perhaps adjust based on time axis values?
+      timeAxis.baseInterval = {
+        "timeUnit": "minute",
+        "count": 1
+      };
 
       // timeAxis.layout = "none";
 
