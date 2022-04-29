@@ -3,13 +3,13 @@ $(document).ready(function() {
     const newTr = `
     <tr class="hide">
         <td class="pt-3-half" contenteditable="false">
-            <input type="text" name="time_value0" value=" " style="display:table-cell; width:100%">
+            <input type="text" name="time_value" value=" " style="display:table-cell; width:100%">
         </td>
         <td class="pt-3-half" contenteditable="false">
-            <input type="text" name="data_value0" value=" " style="display:table-cell; width:100%">
+            <input type="text" name="data_value" value=" " style="display:table-cell; width:100%">
         </td>
         <td class="pt-3-half" contenteditable="false">
-            <input type="text" name="data_annotation0" value=" " style="display:table-cell; width:100%">
+            <input type="text" name="data_annotation" value=" " style="display:table-cell; width:100%">
         </td>
         <td class="pt-3-half">
             <span class="table-up">
@@ -43,17 +43,17 @@ $(document).ready(function() {
         }
         
         // Set new names of the input fields in the cloned tr
-        const $inputs = $clone.find('input');
-        for (let i = 0; i < $inputs.length; i++) {
-            $old_name = $inputs.get(i).name;
-            if ($old_name.startsWith('time_value')) {
-                $new_name = 'time_value' + $n_rows.toString();
-            }
-            else if ($old_name.startsWith('data_value')) {
-                $new_name = 'data_value' + $n_rows.toString();
-            }
-            $inputs.get(i).setAttribute('name', $new_name);
-        }
+        // const $inputs = $clone.find('input');
+        // for (let i = 0; i < $inputs.length; i++) {
+        //     $old_name = $inputs.get(i).name;
+        //     if ($old_name.startsWith('time_value')) {
+        //         $new_name = 'time_value' + $n_rows.toString();
+        //     }
+        //     else if ($old_name.startsWith('data_value')) {
+        //         $new_name = 'data_value' + $n_rows.toString();
+        //     }
+        //     $inputs.get(i).setAttribute('name', $new_name);
+        // }
         
         $tableID.find('table').append($clone);
     });
