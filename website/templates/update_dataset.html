@@ -53,84 +53,82 @@ Update dataset
                     {% endfor %} -->
                 </div>
             {% endfor %}
-        </div>
 
-
-        <!-- XXX -->
-        <div class="card">
-            <div class="card-body">
-                <div id="table" class="table-editable">
-                    <span class="table-add float-right mb-3 mr-2">
-                        <a href="#!" class="text-success">
-                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
-                        </a>
-                    </span>
-                    <table class="table table-bordered table-responsive-md table-striped text-center">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Time values</th>
-                                <th class="text-center">Data values</th>
-                                <th class="text-center">Annotation (optional)</th>
-                                <th class="text-center">Sort</th>
-                                <th class="text-center">Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% set time_values = dataset['time_values'].split(',') %} 
-                            {% set data_values = dataset['data_values'].split(',') %}
-                            {% for i in range(time_values|length) %}
-                                {% set time_value_name = "time_value" + (i|string) %}
-                                {% set data_value_name = "data_value" + (i|string) %}
-                                {% set data_annotation_name = "data_annotation" + (i|string) %}
+            <div class="card">
+                <div class="card-body">
+                    <div id="table" class="table-editable">
+                        <span class="table-add float-right mb-3 mr-2">
+                            <a href="#!" class="text-success">
+                                <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                            <thead>
                                 <tr>
-                                    <td class="pt-3-half" contenteditable="false">
-                                        <input type="text" name="{{ time_value_name }}" value="{{ time_values[i][1:-1] }}"
-                                            style="display:table-cell; width:100%">
-                                    </td>
-                                    <td class="pt-3-half" contenteditable="false">
-                                        <input type="text" name="{{ data_value_name }}" value="{{ data_values[i][1:-1] }}"
-                                            style="display:table-cell; width:100%">
-                                    </td>
-                                    <td class="pt-3-half" contenteditable="false">
-                                        <input type="text" name="{{ data_annotation_name }}" value=" "
-                                            style="display:table-cell; width:100%">
-                                    </td>
-                                    <td class="pt-3-half">
-                                        <span class="table-up">
-                                            <a href="#!" class="indigo-text">
-                                                <i class="fa fa-long-arrow-alt-up" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
-                                        <span class="table-down">
-                                            <a href="#!" class="indigo-text">
-                                                <i class="fa fa-long-arrow-alt-down" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <span class="table-remove">
-                                            <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
-                                                Remove
-                                            </button>
-                                        </span>
-                                    </td>
+                                    <th class="text-center">Time values</th>
+                                    <th class="text-center">Data values</th>
+                                    <th class="text-center">Annotation (optional)</th>
+                                    <th class="text-center">Sort</th>
+                                    <th class="text-center">Remove</th>
                                 </tr>
-                            {% endfor %}
+                            </thead>
+                            <tbody>
+                                {% set time_values = dataset['time_values'].split(',') %} 
+                                {% set data_values = dataset['data_values'].split(',') %}
+                                {% set time_value_name = "time_value" %}
+                                {% set data_value_name = "data_value" %}
+                                {% set data_annotation_name = "data_annotation" %}
+                                {% for i in range(time_values|length) %}
+                                    <tr>
+                                        <td class="pt-3-half" contenteditable="false">
+                                            <input type="text" name="{{ time_value_name }}" value="{{ time_values[i][1:-1] }}"
+                                                style="display:table-cell; width:100%">
+                                        </td>
+                                        <td class="pt-3-half" contenteditable="false">
+                                            <input type="text" name="{{ data_value_name }}" value="{{ data_values[i][1:-1] }}"
+                                                style="display:table-cell; width:100%">
+                                        </td>
+                                        <td class="pt-3-half" contenteditable="false">
+                                            <input type="text" name="{{ data_annotation_name }}" value=" "
+                                                style="display:table-cell; width:100%">
+                                        </td>
+                                        <td class="pt-3-half">
+                                            <span class="table-up">
+                                                <a href="#!" class="indigo-text">
+                                                    <i class="fa fa-long-arrow-alt-up" aria-hidden="true"></i>
+                                                </a>
+                                            </span>
+                                            <span class="table-down">
+                                                <a href="#!" class="indigo-text">
+                                                    <i class="fa fa-long-arrow-alt-down" aria-hidden="true"></i>
+                                                </a>
+                                            </span>
+                                        </td>
 
-                        </tbody>
-                    </table>
+                                        <td>
+                                            <span class="table-remove">
+                                                <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
+                                                    Remove
+                                                </button>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <!-- End XXX -->
 
-
-            <div align="center">
-                <a href="{{ url_for('views.home') }}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
-                <!-- <button class="btn btn-secondary">Cancel</button> -->
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
         </fieldset>
+
+        <div align="center">
+            <a href="{{ url_for('views.home') }}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
+            <!-- <button class="btn btn-secondary">Cancel</button> -->
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        
     </form>
 </div>
 
