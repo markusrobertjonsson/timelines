@@ -97,6 +97,11 @@
     
 
       <h2><br>My datasets</h2>
+      <p style="color:#FF0000";>
+        Note: Since the database is under construction,<br>
+        added data may be deleted at any time without<br>
+        prior notice.
+      </p>
       {% if user.is_authenticated %}
       <div style="border:1px solid black;">
         <ul class="my_datasets_list list-group list-group-flush overflow-auto" id="datasets">
@@ -157,7 +162,7 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" for="input_current_year" id="label_current_year">Current year:</label>
               </div>
-              <input type="text" class="form-control" id="input_current_year" value="2021">
+              <input type="text" class="form-control" id="input_current_year" value="2022">
             </div>
 
             <div class="form-check" id="log_time_div" style="margin-top:10px;">
