@@ -11,7 +11,7 @@ Dataset details
 </script>
 
 <h2>Dataset added {{ dataset.date }}</h2>
-{% for key in ['label', 'description', 'data_is_qualitative', 'legend', 'data_unit'] %}
+{% for key in ['label', 'description', 'legend', 'data_unit', 'data_is_qualitative'] %}
     {{ form[key].label }}<br />
     <div style="border:1px solid black;">
         {{ dataset[key] }}

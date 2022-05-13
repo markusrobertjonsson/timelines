@@ -168,8 +168,6 @@ def add():
         label = request.form.get('label')
         description = request.form.get('description')
 
-        time_values, data_values = table_to_csv(request.form)
-
         time_values = list_to_csv(request.form.getlist("time_value"))
         data_values = list_to_csv(request.form.getlist("data_value"))
 

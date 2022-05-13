@@ -14,7 +14,7 @@ class AddDataSetForm(FlaskForm):
     #                             validators=[DataRequired(), Length(max=DATA_MAXLENGTH)])
     # data_values = TextAreaField("Data values:",
     #                             validators=[DataRequired(), Length(max=DATA_MAXLENGTH)])
-    data_is_qualitative = BooleanField("Data is qualitative:", default=False)
+    data_is_qualitative = BooleanField("Data is qualitative", default=False)
     data_unit_choices = [("None", "None"),
                          ("kg", 'kg'), ("tonnes", "tonnes"),
                          ("m", 'm'),

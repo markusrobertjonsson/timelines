@@ -25,7 +25,7 @@ Add dataset
                 Add new dataset
             </legend>
             <!-- 'time_values', 'data_values' -->
-            {% for key in ['label', 'description', 'data_is_qualitative', 'legend', 'data_unit'] %}
+            {% for key in ['label', 'description', 'legend', 'data_unit'] %}
                 <div class="form-group">
                     {{ form[key].label(class="form-control-label") }}
                     {% if form[key].errors %}
@@ -40,6 +40,22 @@ Add dataset
                     {% endif %}
                 </div>
             {% endfor %}
+
+            <!-- Special treatment of key 'data_is_qualitative' -->
+            {% set key = 'data_is_qualitative' %}
+            <div class="form-group">
+                {% if form[key].errors %}
+                    {{ form[key](class="form-control form-control-sm is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form[key].errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form[key] }}
+                {% endif %}
+                {{ form[key].label(class="form-control-label") }}
+            </div>
 
             <div class="card">
                 <div class="card-body">
