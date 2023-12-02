@@ -14,3 +14,4 @@ SQLAlchemy==1.4.14
 Werkzeug==1.0.1
 wtf==0.1
 WTForms==2.1
+email_validator
